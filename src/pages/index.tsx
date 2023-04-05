@@ -1,7 +1,13 @@
 import Head from 'next/head'
 import { ethers } from 'ethers';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+
 
 export default function Home() {
+  const router = useRouter();
+  const [account, setAccount] = useState<string>();
+  const [balance, setBalance] = useState<string>();
   const onClick = async () => {
     console.log("click");
     if (!window.ethereum) {
@@ -9,9 +15,11 @@ export default function Home() {
     } else {
       const ethereum = window.ethereum;
       const provider = new ethers.BrowserProvider(ethereum);
-      console.log(provider, "provider");
-      const data = await provider.send("eth_requestAccounts", []);
-      console.log(data);
+      const _accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const _balance = await provider.getBalance(_accounts[0]);
+      const eth = ethers.formatEther(_balance);
+      setAccount(_accounts[0]);
+      setBalance(eth);
     }
   }
 
@@ -25,6 +33,9 @@ export default function Home() {
       </Head>
       <div>
         <button onClick={onClick}>지갑연결</button>
+        <div>{account}</div>
+        <div>{balance}</div>
+        <button onClick={() => router.push("/calendar")}>calendar</button>
       </div>
     </>
   )
