@@ -3,13 +3,12 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 
-
 export default function Home() {
   const router = useRouter();
   const [account, setAccount] = useState<string>();
   const [balance, setBalance] = useState<string>();
+
   const onClick = async () => {
-    console.log("click");
     if (!window.ethereum) {
       alert('메타마스크를 까세요')
     } else {
