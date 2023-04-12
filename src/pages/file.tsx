@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import Layout from '@/components/Layout';
 import UploadPreview from "@/components/UploadPreview";
-import { S3 } from 'aws-sdk';
+import AWS from 'aws-sdk';
 
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
 
 const FilePage = () => {
   const [files, setFiles] = useState<FileInfoType[]>([]);
 
-  const s3 = new S3({
-    accessKeyId: 'YOUR_ACCESS_KEY_ID',
-    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
-    region: 'YOUR_REGION',
-  });
+  const bucket = new AWS.S3({
+    params: { Bucket: process.env.AWS_BUCKET },
+    region: process.env.AWS_REGION,
+  })
 
   const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const list: FileInfoType[] = [];
@@ -31,16 +34,27 @@ const FilePage = () => {
   }
 
   async function saveS3File() {
-    const uploadPromises = files.map((file) => {
-      const { file: fileInfo } = file;
-      const fileContent = fileInfo;
+    const uploadPromises = files.map((fileData) => {
+
       const params = {
-        Bucket: 'YOUR_S3_BUCKET_NAME',
-        Key: fileInfo.name,
-        Body: fileContent,
+        ACL: 'public-read',
+        Body: fileData,
+        Bucket: process.env.AWS_BUCKET as string,
+        Key: "upload/" + fileData.file.name,
       };
 
-      return s3.upload(params).promise();
+      bucket.putObject(params)
+        .on('httpUploadProgress', (evt) => {
+          // setProgress(Math.round((evt.loaded / evt.total) * 100))
+          // setShowAlert(true);
+          // setTimeout(() => {
+          //   setShowAlert(false);
+          //   setSelectedFile(null);
+          // }, 3000)
+        })
+        .send((err) => {
+          if (err) console.log(err)
+        })
     });
 
     console.log(uploadPromises);
