@@ -1,7 +1,6 @@
 import { ethers } from 'ethers';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Layout from '@/components/Layout';
 
 export default function Home() {
   const router = useRouter();
@@ -23,13 +22,12 @@ export default function Home() {
   }
 
   return (
-    <Layout>
-      <div>
-        <button onClick={onClick}>지갑연결</button>
-        <div>{account}</div>
-        <div>{balance}</div>
-        <button onClick={() => router.push("/calendar")}>calendar</button>
-      </div>
-    </Layout>
+    <div>
+      <button onClick={onClick}>지갑연결</button>
+      <div>{account}</div>
+      <div>{balance}</div>
+      <button onClick={() => router.push("/calendar")}>calendar</button>
+    </div>
+
   )
 }

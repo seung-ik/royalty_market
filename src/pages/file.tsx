@@ -1,20 +1,11 @@
 import React, { useState } from "react";
-import Layout from '@/components/Layout';
 import UploadPreview from "@/components/UploadPreview";
 import AWS from 'aws-sdk';
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-})
+
 
 const FilePage = () => {
   const [files, setFiles] = useState<FileInfoType[]>([]);
-
-  const bucket = new AWS.S3({
-    params: { Bucket: process.env.AWS_BUCKET },
-    region: process.env.AWS_REGION,
-  })
 
   const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const list: FileInfoType[] = [];
@@ -35,11 +26,21 @@ const FilePage = () => {
 
   async function saveS3File() {
     const uploadPromises = files.map((fileData) => {
+      AWS.config.update({
+        accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+        secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+        region: 'ap-northeast-2'
+      });
+      console.log(fileData)
+      const bucket = new AWS.S3({
+        params: { Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET },
+        region: process.env.NEXT_PUBLIC_AWS_REGION,
+      })
 
       const params = {
         ACL: 'public-read',
-        Body: fileData,
-        Bucket: process.env.AWS_BUCKET as string,
+        Body: fileData.file,
+        Bucket: 'ap-northeast-2',
         Key: "upload/" + fileData.file.name,
       };
 
@@ -51,29 +52,21 @@ const FilePage = () => {
           //   setShowAlert(false);
           //   setSelectedFile(null);
           // }, 3000)
+          console.log(evt);
         })
         .send((err) => {
           if (err) console.log(err)
         })
     });
-
-    console.log(uploadPromises);
-
-    try {
-      const results = await Promise.all(uploadPromises);
-      console.log('Uploaded images: ', results);
-    } catch (error) {
-      console.log('Error uploading images to S3: ', error);
-    }
   }
 
   return (
 
-    <Layout>
+    <div>
       <input type="file" onChange={uploadFile} multiple />
       <UploadPreview files={files} />
       <button onClick={saveS3File}>저장</button>
-    </Layout>
+    </div>
   )
 };
 

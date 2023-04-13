@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from 'next/dynamic';
-import Layout from "@/components/Layout";
 
 const Calendar = dynamic(() => import('../components/Calendar'), {
   ssr: false
@@ -8,9 +7,9 @@ const Calendar = dynamic(() => import('../components/Calendar'), {
 
 function calendar() {
   return (
-    <Layout>
+    <div>
       <Calendar />
-    </Layout>
+    </div>
   )
 }
 
