@@ -17,7 +17,7 @@ const Betting = () => {
       return (
         <button key={el.id} onClick={() => {
           axios.get(`http://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${el.id}`).then((data) => {
-            console.log(data.data); // headers.competition.competiator
+            console.log(data.data); // headers.competition.competiator 여기에 승자있음
           })
         }}>{el.id}</button>
       )
