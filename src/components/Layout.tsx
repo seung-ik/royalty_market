@@ -19,6 +19,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <button onClick={() => router.push('/')}>메인페이지</button>
         <button onClick={() => router.push('/file')}>파일페이지</button>
         <button onClick={() => router.push('/betting')}>베팅페이지</button>
+        <button onClick={() => router.push('/crud')}>api_routes</button>
       </div>
       {children}
     </div >

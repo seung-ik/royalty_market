@@ -1,13 +1,12 @@
-import { FileType } from "@/pages/file";
 import React from "react";
 import Image from "next/image";
 
 interface Props {
-  files: FileType[]
+  files: FileInfoType[]
 }
 const UploadPreview: React.FC<Props> = ({ files }) => {
   return (
-    <div style={{ border: '1px solid green', height: '300px' }}>
+    <div style={{ border: '1px solid green', height: '300px', width: '100%', display: 'flex', gap: '10px', overflowX: 'auto', whiteSpace: 'nowrap' }}>
       {files.length > 0 &&
         files.map(el => {
           if (el.image) {
@@ -17,7 +16,7 @@ const UploadPreview: React.FC<Props> = ({ files }) => {
                 src={el.url} alt="aa"
                 width={300}
                 height={300}
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'contain', flex: 1 }}
               />
             )
           } else if (el.video) {

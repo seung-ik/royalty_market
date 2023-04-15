@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Betting = () => {
-  const [gameId, setGameId] = useState<any>()
   const [gameList, setGameList] = useState<any>([]);
+
   useEffect(() => {
     axios.get("http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=20230404").then((data) => {
       if (data.data.events[0].status.type.completed) {
-        console.log(data.data)
         setGameList(data.data.events)
       }
     });
   }, [])
+
   return <div>
     {gameList.map((el: any) => {
       return (

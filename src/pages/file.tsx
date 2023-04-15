@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import UploadPreview from "@/components/UploadPreview";
 import AWS from 'aws-sdk';
 
-
-
 const FilePage = () => {
   AWS.config.update({
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
     secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
     region: process.env.NEXT_PUBLIC_REGION
   });
-
   const s3 = new AWS.S3();
 
   const [files, setFiles] = useState<FileInfoType[]>([]);
