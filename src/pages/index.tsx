@@ -1,11 +1,13 @@
 import { ethers } from 'ethers';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@/store';
+import userSlice from '@/store/userSlice';
 
 export default function Home() {
   const router = useRouter();
-  const [account, setAccount] = useState<string>();
-  const [balance, setBalance] = useState<string>();
+  const dispatch = useAppDispatch();
+  const { address, token } = useAppSelector((state) => state.user);
 
   const onClick = async () => {
     if (!window.ethereum) {
@@ -16,18 +18,24 @@ export default function Home() {
       const _accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       const _balance = await provider.getBalance(_accounts[0]);
       const eth = ethers.formatEther(_balance);
-      setAccount(_accounts[0]);
-      setBalance(eth);
+      dispatch(userSlice.actions.setUser({
+        address: _accounts[0],
+        token: eth
+      }))
     }
   }
 
   return (
     <div>
       <button onClick={onClick}>지갑연결</button>
-      <div>{account}</div>
-      <div>{balance}</div>
+      <div>
+        <div>{address}</div>
+        <div>{token}</div>
+
+      </div>
       <button onClick={() => router.push("/calendar")}>calendar</button>
     </div>
 
   )
 }
+

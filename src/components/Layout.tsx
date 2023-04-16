@@ -2,7 +2,6 @@ import React, { PropsWithChildren } from "react";
 import Head from 'next/head'
 import { useRouter } from "next/router";
 
-
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
@@ -20,6 +19,7 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <button onClick={() => router.push('/file')}>파일페이지</button>
         <button onClick={() => router.push('/betting')}>베팅페이지</button>
         <button onClick={() => router.push('/crud')}>api_routes</button>
+        <button onClick={() => router.push('/tychetoss')}>tychetoss</button>
       </div>
       {children}
     </div >
