@@ -30,7 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 			res.status(200).json({ data: result });
 		} else if (req.method === "PUT") {
 			const { id, name, text } = req.body;
-			console.log(text, name, id);
 			const result = await db.collection("users").findOneAndUpdate({ _id: new ObjectId(id) }, { $set: { name, text } });
 			client.close();
 			res.status(200).json({ data: result });

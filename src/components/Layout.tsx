@@ -1,6 +1,10 @@
 import React, { PropsWithChildren } from "react";
 import Head from 'next/head'
+import dynamic from 'next/dynamic';
 import { useRouter } from "next/router";
+const UserStatus = dynamic(() => import('./tychetoss/UserStatus'), {
+  ssr: false,
+});
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
@@ -13,7 +17,8 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div style={{ border: '2px solid orange', width: '100%', display: 'flex' }}>
+      <UserStatus />
+      <div style={{ width: '100%', display: 'flex' }}>
         <button onClick={() => router.push('/calendar')}>달력페이지</button>
         <button onClick={() => router.push('/')}>메인페이지</button>
         <button onClick={() => router.push('/file')}>파일페이지</button>

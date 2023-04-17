@@ -1,11 +1,12 @@
 import { NBAEventType } from "@/pages/tychetoss";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import ScoreBoard from "./ScoreBoard";
 
 
 const GameItem: React.FC<NBAEventType> = (props) => {
-  const { shortName, name, completed, homeTeam, awayTeam } = props;
-  console.log(homeTeam);
+  const { shortName, name, completed, homeTeam, awayTeam, id } = props;
+  const router = useRouter();
   const [active, setActive] = useState<boolean>(false);
   return (
     <div
@@ -24,7 +25,7 @@ const GameItem: React.FC<NBAEventType> = (props) => {
             <ScoreBoard isHome={false} info={awayTeam} />
           </div>
           <button>enroll</button>
-          <button>betting</button>
+          <button onClick={() => router.push(`/nba/${id}`)}>betting</button>
         </section>
       )}
     </div >

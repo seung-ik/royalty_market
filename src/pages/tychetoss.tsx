@@ -41,7 +41,6 @@ const TycheToss = () => {
         <button>mlb</button>
       </div>
       <div style={{ display: 'flex', marginTop: '30px' }}>
-
         <button onClick={() => {
           const _date = subDays(date, 1);
           setDate(_date);
@@ -53,6 +52,7 @@ const TycheToss = () => {
           const _date = addDays(date, 1);
           setDate(_date);
         }}>앞으로</button>
+        <button onClick={() => setDate(new Date())}>오늘로이동</button>
       </div>
       <section style={{ marginTop: '40px' }}>
         <h1>경기일정</h1>

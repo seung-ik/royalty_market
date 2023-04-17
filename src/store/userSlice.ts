@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	address: "",
 	token: 0,
+	chainId: 1,
 };
 
 const userSlice = createSlice({
@@ -12,6 +13,10 @@ const userSlice = createSlice({
 		setUser(state, action) {
 			state.address = action.payload.address;
 			state.token = action.payload.token;
+			state.chainId = action.payload.chainId;
+		},
+		reset(state) {
+			Object.assign(state, initialState);
 		},
 	},
 });
