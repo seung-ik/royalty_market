@@ -8,10 +8,12 @@ const DetailPage = () => {
 
   useEffect(() => {
     if (pid) {
-      axios.get(`http://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pid}`).then((data) => {
-        console.log(data.data); // headers.competition.competiator 여기에 승자있음
+      axios.get(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=${pid}`).then((data) => {
+        console.log(data); // headers.competition.competiator 여기에 승자있음
       })
     }
+
+    axios.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD').then((data) => console.log(data));
   }, [pid])
 
   return (

@@ -12,7 +12,7 @@ const userSlice = createSlice({
 	reducers: {
 		setUser(state, action) {
 			state.address = action.payload.address;
-			state.token = action.payload.token;
+			state.token = state.token + 1000;
 			state.chainId = action.payload.chainId;
 		},
 		reset(state) {
